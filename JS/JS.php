@@ -14,9 +14,9 @@ class JS
     {
         // add_action('wp_footer', [$this, 'load_js']);
         add_action('wp_footer', [$this, 'load_front_page_react']);
-        add_action('wp_footer', [$this, 'load_pages_react']);
-        add_action('wp_footer', [$this, 'load_post_types_archive_jsx']);
-        add_action('wp_footer', [$this, 'load_post_types_single_jsx']);
+        // add_action('wp_footer', [$this, 'load_pages_react']);
+        // add_action('wp_footer', [$this, 'load_post_types_archive_jsx']);
+        // add_action('wp_footer', [$this, 'load_post_types_single_jsx']);
         add_filter('script_loader_tag', [$this, 'set_script_type_to_module'], 10, 2);
         // add_action('wp_enqueue_scripts', [$this, 'load_firebase']);
 
@@ -36,9 +36,7 @@ class JS
     function load_front_page_react()
     {
         $sections = [
-            'about',
-            'schedule',
-            'founders',
+            'locations'
         ];
 
         foreach ($sections as $section) {

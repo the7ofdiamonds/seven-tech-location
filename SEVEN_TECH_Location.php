@@ -75,7 +75,6 @@ register_activation_hook(__FILE__, array($seven_tech, 'activate'));
 
 $seven_tech_pages = new Pages();
 register_activation_hook(__FILE__, array($seven_tech_pages, 'add_pages'));
-register_activation_hook(__FILE__, [$seven_tech_pages, 'add_founder_subpages']);
 
 // register_deactivation_hook(__FILE__, array($thfw_users, 'deactivate'));
 
