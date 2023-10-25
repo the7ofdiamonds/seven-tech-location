@@ -17,8 +17,8 @@ class Templates
     public function __construct()
     {
         add_filter('frontpage_template', [$this, 'get_custom_front_page']);
-        add_filter('archive_template', [$this, 'get_archive_template']);
-        add_filter('single_template', [$this, 'get_single_template']);
+        add_filter('archive_template', [$this, 'get_locations_archive_template'], 10, 1);
+        add_filter('single_template', [$this, 'get_locations_single_template'], 10, 1);
 
         $pages = new Pages;
         $posttypes = new Post_Types;
@@ -37,40 +37,34 @@ class Templates
         }
     }
 
-    function get_archive_template($archive_template)
+    function get_locations_archive_template($archive_template)
     {
-        foreach ($this->post_types as $post_type) {
+        if (is_post_type_archive('locations')) {
+            $archive_template = SEVEN_TECH_LOCATION . 'Post_Types/Locations/archive-locations.php';
 
-            if (is_post_type_archive($post_type['archive_page'])) {
-                $archive_template = SEVEN_TECH_LOCATION . 'Post_Types/Locations/archive-locations.php';
+            if (file_exists($archive_template)) {
+                add_action('wp_head', [$this->css_file, 'load_post_types_css']);
+                add_action('wp_footer', [$this->js_file, 'load_post_types_archive_react']);
 
-                if (file_exists($archive_template)) {
-                    add_action('wp_head', [$this->css_file, 'load_post_types_css']);
-                    add_action('wp_footer', [$this->js_file, 'load_post_types_archive_react']);
-
-                    return $archive_template;
-                } else {
-                    error_log('Post Type ' . $post_type['name'] . ' archive template not found.');
-                }
+                return $archive_template;
+            } else {
+                error_log('Post Type Locations archive template not found.');
             }
         }
     }
 
-    function get_single_template($single_template)
+    function get_locations_single_template($single_template)
     {
-        foreach ($this->post_types as $post_type) {
+        if (is_singular('locations')) {
+            $single_template = SEVEN_TECH_LOCATION . 'Post_Types/Locations/single-locations.php';
 
-            if (is_singular($post_type['archive_page'])) {
-                $single_template = SEVEN_TECH_LOCATION . 'Post_Types/Locations/single-locations.php';
+            if (file_exists($single_template)) {
+                add_action('wp_head', [$this->css_file, 'load_post_types_css']);
+                add_action('wp_footer', [$this->js_file, 'load_post_types_single_react']);
 
-                if (file_exists($single_template)) {
-                    add_action('wp_head', [$this->css_file, 'load_post_types_css']);
-                    add_action('wp_footer', [$this->js_file, 'load_post_types_single_react']);
-
-                    return $single_template;
-                } else {
-                    error_log('Post Type ' . $post_type['name'] . ' single template not found.');
-                }
+                return $single_template;
+            } else {
+                error_log('Post Type Locations single template not found.');
             }
         }
     }

@@ -3,6 +3,10 @@
   width: 100%;
   max-width: 500px;
   height: auto;
+  border-radius: 0.5em;
+}
+.card.map-card iframe {
+  border-radius: 0.5em;
 }
 
 /*# sourceMappingURL=seven-tech-location.css.map */

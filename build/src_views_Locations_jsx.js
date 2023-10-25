@@ -16,7 +16,9 @@ function Locations() {
   const iframeStyle = {
     border: '0'
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
+    className: "locations"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
     className: "title"
   }, "Locations"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card map-card"

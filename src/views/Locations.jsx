@@ -6,7 +6,7 @@ function Locations() {
   };
 
   return (
-    <section>
+    <section className='locations'>
       <h2 className="title">Locations</h2>
 
       <div className="card map-card">
