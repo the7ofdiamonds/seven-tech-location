@@ -1,6 +1,6 @@
 <?php
 
-namespace SEVEN_TECH_Location\API\Google;
+namespace SEVEN_TECH\Location\API\Google;
 
 use Google\Client;
 

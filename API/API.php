@@ -1,8 +1,8 @@
 <?php
 
-namespace SEVEN_TECH_Location\API;
+namespace SEVEN_TECH\Location\API;
 
-use SEVEN_TECH_Location\API\Google\Google;
+use SEVEN_TECH\Location\API\Google\Google;
 
 class API
 {

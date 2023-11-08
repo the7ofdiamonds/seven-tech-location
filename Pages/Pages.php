@@ -1,40 +1,72 @@
 <?php
 
-namespace SEVEN_TECH_Location\Pages;
+namespace SEVEN_TECH\Location\Pages;
 
 use WP_Query;
 
 class Pages
 {
+    public $front_page_react;
+    public $pages;
+    public $protected_pages;
     public $page_titles;
-    public $react_pages;
 
     public function __construct()
     {
-        $this->page_titles = [];
-
-        $this->react_pages = [
-            'about'
+        $this->front_page_react = [
+            'locations'
         ];
+
+        $this->pages = [];
+
+        $this->protected_pages = [];
+
+        $this->page_titles = [
+            ...$this->pages,
+            ...$this->protected_pages
+        ];
+
+        add_action('init', [$this, 'react_rewrite_rules']);
+
+        add_filter('query_vars', [$this, 'add_query_vars']);
+
+        add_action('init', [$this, 'is_user_logged_in']);
     }
 
-    public function add_pages()
+    function react_rewrite_rules()
     {
-        global $wpdb;
+        if (is_array($this->page_titles) && count($this->page_titles) > 0) {
 
-        foreach ($this->page_titles as $page_title) {
-            $page_exists = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_title = %s AND post_type = 'page'", $page_title));
+            foreach ($this->page_titles as $page_title) {
+                $url = explode('/', $page_title);
+                $segment = count($url) - 1;
 
-            if (!$page_exists) {
-                $page_data = array(
-                    'post_title'   => $page_title,
-                    'post_type'    => 'page',
-                    'post_content' => '',
-                    'post_status'  => 'publish',
-                );
-
-                wp_insert_post($page_data);
+                if (isset($url[$segment])) {
+                    add_rewrite_rule('^' . $page_title, 'index.php?' . $url[$segment] . '=$1', 'top');
+                }
             }
         }
+    }
+
+    function add_query_vars($query_vars)
+    {
+        if (is_array($this->page_titles) && count($this->page_titles) > 0) {
+
+            foreach ($this->page_titles as $page_title) {
+                $url = explode('/', $page_title);
+                $segment = count($url) - 1;
+
+                $query_vars[] = $url[$segment];
+            }
+
+            return $query_vars;
+        }
+
+        return $query_vars;
+    }
+
+    function is_user_logged_in()
+    {
+        return isset($_SESSION['idToken']);
     }
 }

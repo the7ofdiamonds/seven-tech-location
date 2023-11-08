@@ -1,13 +1,15 @@
 <?php
 
-namespace SEVEN_TECH_Location\CSS;
+namespace SEVEN_TECH\Location\CSS;
 
-use SEVEN_TECH_Location\Pages\Pages;
-use SEVEN_TECH_Location\Post_Types\Post_Types;
+use SEVEN_TECH\Location\Pages\Pages;
+use SEVEN_TECH\Location\Post_Types\Post_Types;
 
 class CSS
 {
     private $handle_prefix;
+    private $dir;
+    private $dirURL;
     private $cssFolderPath;
     private $cssFolderPathURL;
     private $cssFileName;
@@ -17,20 +19,26 @@ class CSS
 
     public function __construct()
     {
-        add_action('wp_head', [$this, 'load_pages_css']);
-
         $this->handle_prefix = 'seven_tech_location_';
-        $this->cssFolderPath = SEVEN_TECH_LOCATION . 'CSS/';
-        $this->cssFolderPathURL = SEVEN_TECH_LOCATION_URL . 'CSS/';
+        $this->dir = SEVEN_TECH_LOCATION;
+        $this->dirURL = SEVEN_TECH_LOCATION_URL;
         $this->cssFileName = 'seven-tech-location.css';
+
+        $this->cssFolderPath = $this->dir . 'CSS/';
+        $this->cssFolderPathURL = $this->dirURL . 'CSS/';
 
         $this->filePath = $this->cssFolderPath . $this->cssFileName;
 
         $pages = new Pages;
         $posttypes = new Post_Types;
 
-        $this->page_titles = $pages->page_titles;
+        $this->page_titles = [
+            ...$pages->pages,
+            ...$pages->protected_pages
+        ];
         $this->post_types = $posttypes->post_types;
+
+        // new Customizer;
     }
 
     function load_front_page_css()

@@ -1,9 +1,9 @@
 <?php
 
-namespace SEVEN_TECH_Location;
+namespace SEVEN_TECH\Location;
 
 /**
- * @package SEVEN_TECH_Location
+ * @package SEVEN_TECH\Location
  */
 /*
 Plugin Name: SEVEN TECH Locations
@@ -26,22 +26,20 @@ define('SEVEN_TECH_LOCATION_URL', WP_PLUGIN_URL . '/seven-tech-location/');
 
 require_once SEVEN_TECH_LOCATION . 'vendor/autoload.php';
 
-use SEVEN_TECH_Location\Admin\Admin;
-use SEVEN_TECH_Location\API\API;
-use SEVEN_TECH_Location\CSS\CSS;
-use SEVEN_TECH_Location\Database\Database;
-use SEVEN_TECH_Location\JS\JS;
-use SEVEN_TECH_Location\Pages\Pages;
-use SEVEN_TECH_Location\Post_Types\Post_Types;
-use SEVEN_TECH_Location\Shortcodes\Shortcodes;
-use SEVEN_TECH_Location\Templates\Templates;
+use SEVEN_TECH\Location\Admin\Admin;
+use SEVEN_TECH\Location\API\API;
+use SEVEN_TECH\Location\CSS\CSS;
+use SEVEN_TECH\Location\Database\Database;
+use SEVEN_TECH\Location\JS\JS;
+use SEVEN_TECH\Location\Pages\Pages;
+use SEVEN_TECH\Location\Post_Types\Post_Types;
+use SEVEN_TECH\Location\Shortcodes\Shortcodes;
+use SEVEN_TECH\Location\Templates\Templates;
 
 class SEVEN_TECH_Location
 {
     public function __construct()
     {
-        add_filter('upload_mimes', [$this, 'add_theme_support_upload_mimes']);
-
         new Admin;
         new API;
         new CSS;
@@ -57,25 +55,8 @@ class SEVEN_TECH_Location
     {
         flush_rewrite_rules();
     }
-
-    function add_theme_support_upload_mimes($mimes)
-    {
-        $mimes['jpeg'] = 'image/jpeg';
-        $mimes['jpg'] = 'image/jpeg';
-        $mimes['svg'] = 'image/svg+xml';
-        $mimes['eps'] = 'application/postscript';
-        $mimes['ai'] = 'application/postscript';
-
-        return $mimes;
-    }
 }
 
 $seven_tech = new SEVEN_TECH_Location();
 register_activation_hook(__FILE__, array($seven_tech, 'activate'));
-
-$seven_tech_pages = new Pages();
-register_activation_hook(__FILE__, array($seven_tech_pages, 'add_pages'));
-
 // register_deactivation_hook(__FILE__, array($thfw_users, 'deactivate'));
-
-//Uninstall move post type to trash

@@ -1,6 +1,6 @@
 <?php
 
-namespace SEVEN_TECH_Location\Admin;
+namespace SEVEN_TECH\Location\Admin;
 
 class Admin
 {
